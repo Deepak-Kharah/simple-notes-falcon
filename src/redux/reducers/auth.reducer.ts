@@ -6,6 +6,7 @@ export const initialState = {
     userDetails: {
         username: "",
     },
+    isLoading: false,
 };
 
 function auth(
@@ -13,7 +14,7 @@ function auth(
     action: AuthReducerPayload
 ): typeof initialState {
     switch (action.type) {
-        case authDispatch.USER_LOGGED_IN_SUCCESS:
+        case authDispatch.USER_LOGGED_IN:
             return {
                 ...state,
                 isAuthenticated: true,
@@ -21,8 +22,20 @@ function auth(
                     ...state.userDetails,
                     username: action.payload?.username,
                 },
+                isLoading: false,
+            };
+        case authDispatch.USER_CREATED:
+            return {
+                ...state,
+            };
+        case authDispatch.AUTH_LOADING:
+            return {
+                ...state,
+                isLoading: true,
             };
         case authDispatch.AUTH_ERROR:
+        case authDispatch.USER_CREATE_FAILED:
+        case authDispatch.USER_LOGGED_IN_FAILED:
             return {
                 ...state,
                 isAuthenticated: false,
@@ -30,6 +43,7 @@ function auth(
                     ...state.userDetails,
                     username: "",
                 },
+                isLoading: false,
             };
         default:
             return state;

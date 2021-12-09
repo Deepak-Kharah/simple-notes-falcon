@@ -17,16 +17,18 @@ export default function configureAxios(dispatch: Dispatch) {
             const { data } = response;
             const { message, statusCode } = data;
 
+            console.log({ data, response, config, message });
+
             if (baseURL !== "http://localhost:8000") {
                 return Promise.reject(axiosResponse);
             }
 
             if (statusCode !== 401) {
-                Promise.reject(axiosResponse);
+                return Promise.reject(axiosResponse);
             }
 
             // handle default auth error
-            switch (message.toLowerCase()) {
+            switch (typeof message === "string" && message.toLowerCase()) {
                 case "access token expired":
                 case "no access token":
                     dispatch({
