@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 import { authDispatch } from "../redux/types";
 
 export default function configureAxios(dispatch: Dispatch) {
-    axios.defaults.baseURL = "http://localhost:8000";
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    axios.defaults.baseURL = apiUrl;
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios.defaults.withCredentials = true;
 
@@ -19,7 +20,7 @@ export default function configureAxios(dispatch: Dispatch) {
 
             console.log({ data, response, config, message });
 
-            if (baseURL !== "http://localhost:8000") {
+            if (baseURL !== apiUrl) {
                 return Promise.reject(axiosResponse);
             }
 
