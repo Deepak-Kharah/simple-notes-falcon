@@ -1,10 +1,10 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
 import { registerUser } from "../redux/actions/auth.action";
 import { RegisterDto } from "../types/auth/auth.dto";
+import { registrationSchema } from "../yupSchemas/auth.yup-schema";
 
 declare interface IRegisterOwnProps {}
 
@@ -24,8 +24,15 @@ const register = (props: IRegisterProps) => {
         <div>
             <h1>Reg page</h1>
             <Formik
-                initialValues={{ username: "", password: "" }}
+                validateOnChange
+                validateOnBlur
+                initialValues={{
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                }}
                 onSubmit={registerUser}
+                validationSchema={registrationSchema}
             >
                 {({ handleSubmit, handleChange, values }) => (
                     <form onSubmit={handleSubmit}>
@@ -35,12 +42,21 @@ const register = (props: IRegisterProps) => {
                             onChange={handleChange}
                             value={values.username}
                         />
+                        <ErrorMessage name="username" />
                         <input
                             type="password"
                             name="password"
                             onChange={handleChange}
                             value={values.password}
                         />
+                        <ErrorMessage name="password" />
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            onChange={handleChange}
+                            value={values.confirmPassword}
+                        />
+                        <ErrorMessage name="confirmPassword" />
                         <button type="submit">Submit</button>
                     </form>
                 )}
