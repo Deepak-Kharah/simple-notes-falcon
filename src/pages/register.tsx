@@ -38,7 +38,7 @@ const registerationField = {
     confirmPassword: "confirm-password",
 } as const;
 
-const register = (props: IRegisterProps) => {
+const Register = (props: IRegisterProps) => {
     const { registerUser } = props;
 
     const [showPassword, setShowPassword] = React.useState({
@@ -66,9 +66,7 @@ const register = (props: IRegisterProps) => {
                     password: "",
                     confirmPassword: "",
                 }}
-                onSubmit={(value) => {
-                    console.log(value);
-                }}
+                onSubmit={registerUser}
                 validationSchema={registrationSchema}
             >
                 {({ handleSubmit, handleChange, values, errors, touched }) => (
@@ -223,4 +221,4 @@ const enhance = compose(
     >(mapStateToProps, mapDispatchToProps)
 );
 
-export default enhance(register);
+export default enhance(Register);

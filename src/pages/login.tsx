@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import { connect } from "react-redux";
@@ -17,14 +17,16 @@ import {
     InputRightElement,
     Stack,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "../modules/redux/hooks/redux.hooks";
+import { authDispatch } from "../modules/auth/redux/auth.dispatch-type";
 
-declare interface ILoginOwnProps {
-    username: string;
-}
+declare interface ILoginOwnProps {}
 
 declare interface ILoginStoreProps {
     isAuthLoading: boolean;
     isAuthenticated: boolean;
+    redirectUrl: string;
 }
 
 declare interface ILoginDispatchProps {
@@ -40,16 +42,33 @@ const loginFields = {
     password: "password",
 } as const;
 
+declare module Login {
+    export const login: typeof loginFields;
+}
+
 function Login(props: ILoginProps) {
-    // const { loginUser } = props;
+    const { loginUser, isAuthLoading, isAuthenticated, redirectUrl } = props;
+
+    const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const [showPassword, setShowPassword] = useState(false);
     function handleShowPassword() {
         setShowPassword((prevProps) => !prevProps);
     }
 
-    if (props.isAuthenticated) {
-    }
+    useEffect(() => {
+        if (isAuthenticated) {
+            // redirect to redirect url
+            router.push(redirectUrl);
+
+            // reset redirect url
+            dispatch({
+                type: authDispatch.RESET_REDIRECT_URL,
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated]);
 
     return (
         <div>
@@ -59,9 +78,7 @@ function Login(props: ILoginProps) {
                     username: "",
                     password: "",
                 }}
-                onSubmit={(values, _) => {
-                    console.log(values);
-                }}
+                onSubmit={loginUser}
             >
                 {({ handleSubmit, handleChange, values }) => (
                     <Form onSubmit={handleSubmit}>
@@ -107,7 +124,7 @@ function Login(props: ILoginProps) {
 
                             <Button
                                 colorScheme="teal"
-                                isLoading={props.isAuthLoading}
+                                isLoading={isAuthLoading}
                                 loadingText={"Logging in"}
                                 type="submit"
                             >
@@ -117,16 +134,6 @@ function Login(props: ILoginProps) {
                     </Form>
                 )}
             </Formik>
-            <button
-                onClick={() => {
-                    axios
-                        .get("users/me")
-                        .then((res) => console.log(res))
-                        .catch((err) => console.error(err));
-                }}
-            >
-                submit
-            </button>
         </div>
     );
 }
@@ -134,6 +141,7 @@ function Login(props: ILoginProps) {
 const mapStateToProps = (state: State): ILoginStoreProps => ({
     isAuthLoading: state.auth.isLoading,
     isAuthenticated: state.auth.isAuthenticated,
+    redirectUrl: state.auth.redirectUrl,
 });
 
 const mapDispatchToProps = {

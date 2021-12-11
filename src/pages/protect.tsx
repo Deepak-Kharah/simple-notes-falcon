@@ -21,8 +21,10 @@ const ProtectedPage = (props: { isAuthenticated: boolean }) => {
     );
 };
 
-const mapStateToProps = (state: State) => {
-    isAuthenticated: state.auth.isAuthenticated;
-};
+ProtectedPage.isProtected = true;
+
+const mapStateToProps = (state: State) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
 
 export default connect(mapStateToProps)(ProtectedPage);

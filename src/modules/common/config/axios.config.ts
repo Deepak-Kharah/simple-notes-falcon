@@ -22,8 +22,6 @@ export default function configureAxios(dispatch: Dispatch, router: NextRouter) {
             const { data } = response;
             const { message, statusCode } = data;
 
-            console.log({ data, response, config, message });
-
             if (baseURL !== apiUrl) {
                 return Promise.reject(axiosResponse);
             }
