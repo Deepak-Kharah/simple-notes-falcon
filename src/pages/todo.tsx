@@ -2,11 +2,11 @@ import { v4 as uuidV4 } from "uuid";
 import { useState } from "react";
 
 // components
-import { TodoItem } from "../components/todo/TodoItem";
-import { TodoAddForm } from "../components/todo/TodoAddForm";
+import { TodoItem } from "../modules/todos/components/TodoItem.component";
+import { TodoAddForm } from "../modules/todos/components/TodoAddForm.component";
 
 // interfaces
-import { todoItem } from "../types/todo";
+import { todoItem } from "../modules/todos/types/todo.types";
 
 function Todo() {
     const [todoItems, setTodoItems] = useState<todoItem[]>([]);
