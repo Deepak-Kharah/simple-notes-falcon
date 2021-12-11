@@ -10,7 +10,7 @@ import styles from "../../styles/notes.module.css";
 // interfaces
 import { noteItem } from "../modules/notes/types/note.type";
 
-function notes() {
+function Notes() {
     const [noteItems, setNoteItems] = useState<noteItem[]>([]);
 
     function addNewNote(title: string, description: string) {
@@ -61,4 +61,4 @@ function notes() {
     );
 }
 
-export default notes;
+export default Notes;
