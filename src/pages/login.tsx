@@ -1,14 +1,22 @@
 import { useState } from "react";
 import axios from "axios";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
 import { loginUser } from "../redux/actions/auth.action";
 import { LoginDto } from "../types/auth/auth.dto";
 import React from "react";
 import { State } from "../redux/store";
+import {
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Stack,
+} from "@chakra-ui/react";
 
 declare interface ILoginOwnProps {
     username: string;
@@ -16,6 +24,7 @@ declare interface ILoginOwnProps {
 
 declare interface ILoginStoreProps {
     isAuthLoading: boolean;
+    isAuthenticated: boolean;
 }
 
 declare interface ILoginDispatchProps {
@@ -26,13 +35,22 @@ export declare type ILoginProps = ILoginOwnProps &
     ILoginDispatchProps &
     ILoginStoreProps;
 
+const loginFields = {
+    username: "username",
+    password: "password",
+} as const;
+
 function Login(props: ILoginProps) {
-    const { loginUser } = props;
+    // const { loginUser } = props;
 
     const [showPassword, setShowPassword] = useState(false);
     function handleShowPassword() {
         setShowPassword((prevProps) => !prevProps);
     }
+
+    if (props.isAuthenticated) {
+    }
+
     return (
         <div>
             <h1>Login page</h1>
@@ -42,47 +60,61 @@ function Login(props: ILoginProps) {
                     password: "",
                 }}
                 onSubmit={(values, _) => {
-                    loginUser(values);
+                    console.log(values);
                 }}
             >
                 {({ handleSubmit, handleChange, values }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Input
-                            variant="outline"
-                            type="text"
-                            name="username"
-                            onChange={handleChange}
-                            value={values.username}
-                        />
-                        <InputGroup size="md">
-                            <Input
-                                pr="4.5rem"
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Enter password"
-                            />
-                            <InputRightElement width="4.5rem">
-                                <Button
-                                    variant="ghost"
-                                    h="1.75rem"
-                                    size="sm"
-                                    onClick={handleShowPassword}
-                                    value={values.password}
+                    <Form onSubmit={handleSubmit}>
+                        <Stack maxWidth={"50rem"} margin="auto" spacing="5">
+                            <FormControl id={loginFields.username}>
+                                <FormLabel>Username</FormLabel>
+                                <Input
+                                    variant="outline"
+                                    type="text"
+                                    name={loginFields.username}
                                     onChange={handleChange}
-                                >
-                                    {showPassword ? "Hide" : "Show"}
-                                </Button>
-                            </InputRightElement>
-                        </InputGroup>
+                                    value={values.username}
+                                />
+                            </FormControl>
 
-                        <Button
-                            colorScheme="teal"
-                            isLoading={props.isAuthLoading}
-                            loadingText={"Logging in"}
-                            type="submit"
-                        >
-                            Log in
-                        </Button>
-                    </form>
+                            <FormControl id={loginFields.password}>
+                                <FormLabel>Password</FormLabel>
+
+                                <InputGroup size="md">
+                                    <Input
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        }
+                                        name={loginFields.password}
+                                        onChange={handleChange}
+                                        value={values.password}
+                                    />
+
+                                    <InputRightElement width="4.5rem">
+                                        <Button
+                                            variant="ghost"
+                                            h="1.75rem"
+                                            size="sm"
+                                            onClick={handleShowPassword}
+                                            value={values.password}
+                                            onChange={handleChange}
+                                        >
+                                            {showPassword ? "Hide" : "Show"}
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                            </FormControl>
+
+                            <Button
+                                colorScheme="teal"
+                                isLoading={props.isAuthLoading}
+                                loadingText={"Logging in"}
+                                type="submit"
+                            >
+                                Log in
+                            </Button>
+                        </Stack>
+                    </Form>
                 )}
             </Formik>
             <button
@@ -101,6 +133,7 @@ function Login(props: ILoginProps) {
 
 const mapStateToProps = (state: State): ILoginStoreProps => ({
     isAuthLoading: state.auth.isLoading,
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 const mapDispatchToProps = {

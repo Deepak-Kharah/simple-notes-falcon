@@ -1,11 +1,13 @@
-import { Button } from "@chakra-ui/button";
 import {
+    Stack,
     FormControl,
-    FormErrorMessage,
     FormLabel,
-} from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
-import { Stack } from "@chakra-ui/layout";
+    Input,
+    FormErrorMessage,
+    InputGroup,
+    InputRightElement,
+    Button,
+} from "@chakra-ui/react";
 import { Formik, ErrorMessage, Form } from "formik";
 import React from "react";
 import { connect } from "react-redux";
@@ -29,6 +31,12 @@ declare interface IRegisterDispatchProps {
 export declare type IRegisterProps = IRegisterOwnProps &
     IRegisterDispatchProps &
     IRegisterStoreProps;
+
+const registerationField = {
+    username: "username",
+    password: "password",
+    confirmPassword: "confirm-password",
+} as const;
 
 const register = (props: IRegisterProps) => {
     const { registerUser } = props;
@@ -58,13 +66,16 @@ const register = (props: IRegisterProps) => {
                     password: "",
                     confirmPassword: "",
                 }}
-                onSubmit={registerUser}
+                onSubmit={(value) => {
+                    console.log(value);
+                }}
                 validationSchema={registrationSchema}
             >
                 {({ handleSubmit, handleChange, values, errors, touched }) => (
                     <Form onSubmit={handleSubmit}>
                         <Stack maxWidth={"50rem"} margin="auto" spacing="5">
                             <FormControl
+                                id={registerationField.username}
                                 isInvalid={Boolean(
                                     errors.username && touched.username
                                 )}
@@ -72,17 +83,20 @@ const register = (props: IRegisterProps) => {
                                 <FormLabel>Username</FormLabel>
                                 <Input
                                     type="text"
-                                    name="username"
+                                    name={registerationField.username}
                                     onChange={handleChange}
                                     value={values.username}
                                 />
 
                                 <FormErrorMessage>
-                                    <ErrorMessage name="username" />
+                                    <ErrorMessage
+                                        name={registerationField.username}
+                                    />
                                 </FormErrorMessage>
                             </FormControl>
 
                             <FormControl
+                                id={registerationField.password}
                                 isInvalid={Boolean(
                                     errors.password && touched.password
                                 )}
@@ -96,7 +110,7 @@ const register = (props: IRegisterProps) => {
                                                 ? "text"
                                                 : "password"
                                         }
-                                        name="password"
+                                        name={registerationField.password}
                                         onChange={handleChange}
                                         value={values.password}
                                     />
@@ -120,11 +134,14 @@ const register = (props: IRegisterProps) => {
                                 </InputGroup>
 
                                 <FormErrorMessage>
-                                    <ErrorMessage name="password" />
+                                    <ErrorMessage
+                                        name={registerationField.password}
+                                    />
                                 </FormErrorMessage>
                             </FormControl>
 
                             <FormControl
+                                id={registerationField.confirmPassword}
                                 isInvalid={Boolean(
                                     errors.confirmPassword &&
                                         touched.confirmPassword
@@ -139,7 +156,9 @@ const register = (props: IRegisterProps) => {
                                                 ? "text"
                                                 : "password"
                                         }
-                                        name="confirmPassword"
+                                        name={
+                                            registerationField.confirmPassword
+                                        }
                                         onChange={handleChange}
                                         value={values.confirmPassword}
                                     />
@@ -164,7 +183,11 @@ const register = (props: IRegisterProps) => {
                                 </InputGroup>
 
                                 <FormErrorMessage>
-                                    <ErrorMessage name="confirmPassword" />
+                                    <ErrorMessage
+                                        name={
+                                            registerationField.confirmPassword
+                                        }
+                                    />
                                 </FormErrorMessage>
                             </FormControl>
                             <Button

@@ -1,9 +1,12 @@
 import axios from "axios";
+import React from "react";
+import { connect } from "react-redux";
+import { State } from "../redux/store";
 
-const Home = () => {
+const ProtectedPage = (props: { isAuthenticated: boolean }) => {
     return (
         <div>
-            Dashboard
+            <h1>ProtectedPage</h1>
             <button
                 onClick={() => {
                     axios
@@ -18,4 +21,8 @@ const Home = () => {
     );
 };
 
-export default Home;
+const mapStateToProps = (state: State) => {
+    isAuthenticated: state.auth.isAuthenticated;
+};
+
+export default connect(mapStateToProps)(ProtectedPage);

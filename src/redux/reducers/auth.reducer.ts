@@ -7,6 +7,7 @@ export const initialState = {
         username: "",
     },
     isLoading: false,
+    redirectUrl: "",
 };
 
 function auth(
@@ -44,6 +45,11 @@ function auth(
                     username: "",
                 },
                 isLoading: false,
+            };
+        case authDispatch.SET_REDIRECT_URL:
+            return {
+                ...state,
+                redirectUrl: action.payload?.redirectUrl,
             };
         default:
             return state;

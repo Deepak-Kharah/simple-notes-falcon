@@ -5,13 +5,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 import configureAxios from "../configurations/axios";
 import { reduxWrapper } from "../redux/store";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const dispatch = useDispatch();
+    const router = useRouter();
 
     // configurations
     useEffect(() => {
-        configureAxios(dispatch);
+        configureAxios(dispatch, router);
     }, []);
 
     return (
