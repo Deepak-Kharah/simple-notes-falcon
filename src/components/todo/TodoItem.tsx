@@ -5,7 +5,7 @@ import { cx } from "@emotion/css";
 import styles from "./TodoItem.module.css";
 
 // Interfaces
-import { TodoItemProps } from "../types/todo.types";
+import { TodoItemProps } from "../../types/todo";
 
 export function TodoItem({
     todoItem,

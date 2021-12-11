@@ -2,15 +2,15 @@ import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 
 // components
-import NoteAddForm from "../modules/notes/components/NoteAddForm.component";
-import NoteItem from "../modules/notes/components/NoteItem.component";
+import NoteAddForm from "../components/notes/NoteAddForm";
+import NoteItem from "../components/notes/NoteItem";
 
 import styles from "../../styles/notes.module.css";
 
 // interfaces
-import { noteItem } from "../modules/notes/types/note.type";
+import { noteItem } from "../types/notes";
 
-function Notes() {
+function notes() {
     const [noteItems, setNoteItems] = useState<noteItem[]>([]);
 
     function addNewNote(title: string, description: string) {
@@ -61,4 +61,4 @@ function Notes() {
     );
 }
 
-export default Notes;
+export default notes;

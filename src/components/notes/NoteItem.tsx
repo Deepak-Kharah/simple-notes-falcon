@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./NoteItem.module.css";
 
 // interfaces
-import { NoteItemProps } from "../types/note.type";
+import { NoteItemProps } from "../../types/notes";
 import ReactModal from "react-modal";
 
 function NoteItem({

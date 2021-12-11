@@ -1,13 +1,9 @@
 import axios from "axios";
-import { NextRouter } from "next/router";
 import { Dispatch } from "redux";
+import { authDispatch } from "../redux/types";
 
-import { authDispatch } from "../../auth/redux/auth.dispatch-type";
-
-export default function configureAxios(dispatch: Dispatch, router: NextRouter) {
+export default function configureAxios(dispatch: Dispatch) {
     const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-    // axios defaults
     axios.defaults.baseURL = apiUrl;
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios.defaults.withCredentials = true;
@@ -21,6 +17,8 @@ export default function configureAxios(dispatch: Dispatch, router: NextRouter) {
             const { baseURL } = config;
             const { data } = response;
             const { message, statusCode } = data;
+
+            console.log({ data, response, config, message });
 
             if (baseURL !== apiUrl) {
                 return Promise.reject(axiosResponse);
@@ -36,12 +34,6 @@ export default function configureAxios(dispatch: Dispatch, router: NextRouter) {
                 case "no access token":
                     dispatch({
                         type: authDispatch.AUTH_ERROR,
-                    });
-                    dispatch({
-                        type: authDispatch.SET_REDIRECT_URL,
-                        payload: {
-                            redirectUrl: router.route,
-                        },
                     });
                     break;
                 default:

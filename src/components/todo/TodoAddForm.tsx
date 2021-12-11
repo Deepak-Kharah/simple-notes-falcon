@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // interfaces
-import { TodoAddFormProps } from "../types/todo.types";
+import { TodoAddFormProps } from "../../types/todo";
 
 export function TodoAddForm({ onFormSubmit }: TodoAddFormProps) {
     const [todoValue, setTodoValue] = useState("");

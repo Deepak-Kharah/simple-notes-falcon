@@ -1,11 +1,8 @@
 import axios from "axios";
-import { authDispatch } from "./auth.dispatch-type";
-import {
-    LoginDto,
-    RegisterDto,
-    UserWithoutPasswordDto,
-} from "../types/auth.dto";
-import { Dispatch } from "../../redux/store";
+import { authDispatch } from "../types";
+import { UserWithoutPasswordDto } from "../../types/redux/auth.types";
+import { LoginDto, RegisterDto } from "../../types/auth/auth.dto";
+import { Dispatch } from "../store";
 
 export const loginUser =
     ({ username, password }: LoginDto) =>
@@ -61,29 +58,5 @@ export function registerUser({ username, password }: RegisterDto) {
         }
 
         return null;
-    };
-}
-
-export function isUserLoggedin() {
-    return async (dispatch: Dispatch) => {
-        try {
-            dispatch({
-                type: authDispatch.AUTH_LOADING,
-            });
-            const response = await axios.get<UserWithoutPasswordDto>(
-                "/users/me"
-            );
-
-            const { username } = response.data;
-
-            dispatch({
-                type: authDispatch.INITIAL_AUTH_SUCCESS,
-                payload: {
-                    username,
-                },
-            });
-        } catch (error) {
-            console.error("get user error", error);
-        }
     };
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 
 // interfaces
-import { NoteAddFormProps } from "../types/note.type";
+import { NoteAddFormProps } from "../../types/notes";
 
 // TODO: a11y for input element
 
