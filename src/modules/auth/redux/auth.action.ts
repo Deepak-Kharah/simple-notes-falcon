@@ -1,8 +1,8 @@
 import axios from "axios";
-import { authDispatch } from "../types";
-import { UserWithoutPasswordDto } from "../../types/redux/auth.types";
-import { LoginDto, RegisterDto } from "../../types/auth/auth.dto";
-import { Dispatch } from "../store";
+import { authDispatch } from "./auth.dispatch-type";
+import { UserWithoutPasswordDto } from "../types/auth.types";
+import { LoginDto, RegisterDto } from "../types/auth.dto";
+import { Dispatch } from "../../redux/store";
 
 export const loginUser =
     ({ username, password }: LoginDto) =>

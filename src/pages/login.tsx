@@ -4,10 +4,10 @@ import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { loginUser } from "../redux/actions/auth.action";
-import { LoginDto } from "../types/auth/auth.dto";
+import { loginUser } from "../modules/auth/redux/auth.action";
+import { LoginDto } from "../modules/auth/types/auth.dto";
 import React from "react";
-import { State } from "../redux/store";
+import { State } from "../modules/redux/store";
 import {
     Button,
     FormControl,

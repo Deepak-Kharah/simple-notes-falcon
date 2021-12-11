@@ -13,10 +13,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { registerUser } from "../redux/actions/auth.action";
-import { State } from "../redux/store";
-import { RegisterDto } from "../types/auth/auth.dto";
-import { registrationSchema } from "../yupSchemas/auth.yup-schema";
+import { registerUser } from "../modules/auth/redux/auth.action";
+import { State } from "../modules/redux/store";
+import { RegisterDto } from "../modules/auth/types/auth.dto";
+import { registrationSchema } from "../modules/auth/yup/auth.yup-schema";
 
 declare interface IRegisterOwnProps {}
 

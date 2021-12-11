@@ -1,5 +1,5 @@
-import { AuthReducerPayload } from "../../types/redux/auth.types";
-import { authDispatch } from "../types";
+import { AuthReducerPayload } from "../types/auth.types";
+import { authDispatch } from "./auth.dispatch-type";
 
 export const initialState = {
     isAuthenticated: false,

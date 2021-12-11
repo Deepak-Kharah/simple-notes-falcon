@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
-import { State } from "../redux/store";
+import { State } from "../modules/redux/store";
 
 const ProtectedPage = (props: { isAuthenticated: boolean }) => {
     return (

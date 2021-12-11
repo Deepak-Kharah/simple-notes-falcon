@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 
-import authReducer, { initialState as authInitialState } from "./auth.reducer";
+import authReducer, {
+    initialState as authInitialState,
+} from "../auth/redux/auth.reducer";
 
 export const initialState = {
     auth: authInitialState,

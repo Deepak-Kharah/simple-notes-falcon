@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import configureAxios from "../configurations/axios";
-import { reduxWrapper } from "../redux/store";
+import configureAxios from "../modules/common/config/axios.config";
+import { reduxWrapper } from "../modules/redux/store";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import { NextRouter } from "next/router";
 import { Dispatch } from "redux";
 
-import { authDispatch } from "../redux/types";
+import { authDispatch } from "../../auth/redux/auth.dispatch-type";
 
 export default function configureAxios(dispatch: Dispatch, router: NextRouter) {
     const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
