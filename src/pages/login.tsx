@@ -1,14 +1,22 @@
+import { useState } from "react";
 import axios from "axios";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
 import { loginUser } from "../redux/actions/auth.action";
 import { LoginDto } from "../types/auth/auth.dto";
+import React from "react";
+import { State } from "../redux/store";
 
-declare interface ILoginOwnProps {}
+declare interface ILoginOwnProps {
+    username: string;
+}
 
-declare interface ILoginStoreProps {}
+declare interface ILoginStoreProps {
+    isAuthLoading: boolean;
+}
 
 declare interface ILoginDispatchProps {
     loginUser: (props: LoginDto) => void;
@@ -20,6 +28,11 @@ export declare type ILoginProps = ILoginOwnProps &
 
 function Login(props: ILoginProps) {
     const { loginUser } = props;
+
+    const [showPassword, setShowPassword] = useState(false);
+    function handleShowPassword() {
+        setShowPassword((prevProps) => !prevProps);
+    }
     return (
         <div>
             <h1>Login page</h1>
@@ -34,19 +47,41 @@ function Login(props: ILoginProps) {
             >
                 {({ handleSubmit, handleChange, values }) => (
                     <form onSubmit={handleSubmit}>
-                        <input
+                        <Input
+                            variant="outline"
                             type="text"
                             name="username"
                             onChange={handleChange}
                             value={values.username}
                         />
-                        <input
-                            type="password"
-                            name="password"
-                            onChange={handleChange}
-                            value={values.password}
-                        />
-                        <button type="submit">Submit</button>
+                        <InputGroup size="md">
+                            <Input
+                                pr="4.5rem"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter password"
+                            />
+                            <InputRightElement width="4.5rem">
+                                <Button
+                                    variant="ghost"
+                                    h="1.75rem"
+                                    size="sm"
+                                    onClick={handleShowPassword}
+                                    value={values.password}
+                                    onChange={handleChange}
+                                >
+                                    {showPassword ? "Hide" : "Show"}
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+
+                        <Button
+                            colorScheme="teal"
+                            isLoading={props.isAuthLoading}
+                            loadingText={"Logging in"}
+                            type="submit"
+                        >
+                            Log in
+                        </Button>
                     </form>
                 )}
             </Formik>
@@ -64,13 +99,17 @@ function Login(props: ILoginProps) {
     );
 }
 
+const mapStateToProps = (state: State): ILoginStoreProps => ({
+    isAuthLoading: state.auth.isLoading,
+});
+
 const mapDispatchToProps = {
     loginUser: loginUser,
 };
 
 const enhance = compose(
-    connect<ILoginStoreProps, ILoginDispatchProps, ILoginOwnProps>(
-        null,
+    connect<ILoginStoreProps, ILoginDispatchProps, ILoginOwnProps, State>(
+        mapStateToProps,
         mapDispatchToProps
     )
 );

@@ -8,6 +8,9 @@ export const loginUser =
     ({ username, password }: LoginDto) =>
     async (dispatch: Dispatch) => {
         try {
+            dispatch({
+                type: authDispatch.AUTH_LOADING,
+            });
             const response = await axios.post<UserWithoutPasswordDto>(
                 "/auth/login",
                 {
