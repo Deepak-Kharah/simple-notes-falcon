@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
+import { useMutation, useQuery } from "react-query";
 
 // components
 import NoteAddForm from "../modules/notes/components/NoteAddForm.component";
@@ -8,51 +9,60 @@ import NoteItem from "../modules/notes/components/NoteItem.component";
 import styles from "../../styles/notes.module.css";
 
 // interfaces
-import { noteItem } from "../modules/notes/types/note.type";
+import { CreateNoteItemDto, noteItem } from "../modules/notes/types/note.type";
+import {
+    useAddNoteQuery,
+    useDeleteNoteQuery,
+    useGetNotesQuery,
+    useUpdateNoteQuery,
+} from "../modules/notes/queries/hooks/note.query";
 
 function Notes() {
-    const [noteItems, setNoteItems] = useState<noteItem[]>([]);
+    const {
+        data: noteItems,
+        isError,
+        error,
+        isLoading,
+        isFetching,
+    } = useGetNotesQuery();
 
-    function addNewNote(title: string, description: string) {
-        setNoteItems((previousNotes) => {
-            return [
-                { title: title, description: description, key: uuidV4() },
-                ...previousNotes,
-            ];
-        });
+    const { mutate: addNoteMutation } = useAddNoteQuery();
+    const { mutate: deleteNoteMutation } = useDeleteNoteQuery();
+    const { mutate: updateNoteMutation, status: updateStatus } =
+        useUpdateNoteQuery();
+
+    if (isLoading) {
+        console.log("loading notes");
     }
 
-    function updateNote(key: string, title: string, description: string) {
-        setNoteItems((previousNotes) => {
-            return previousNotes.map((previousNote) => {
-                if (previousNote.key === key) {
-                    return { key, title, description };
-                } else {
-                    return previousNote;
-                }
-            });
-        });
+    if (isError) {
+        console.log(error);
     }
 
-    function deleteNote(key: string) {
-        setNoteItems((previousNotes) => {
-            return previousNotes.filter((previousNote) => {
-                return previousNote.key !== key;
-            });
-        });
+    function addNewNote(title: string, content: string) {
+        const newNote: CreateNoteItemDto = {
+            title,
+            content,
+        };
+        addNoteMutation(newNote);
     }
 
+    if (isLoading) {
+        return <div>Notes are loading...</div>;
+    }
     return (
         <div>
+            {isFetching && <div>fetching...</div>}
             <NoteAddForm onFormSubmit={addNewNote} />
             <div className={styles["notes-container"]}>
-                {noteItems.map((noteItem) => {
+                {noteItems?.map((noteItem) => {
                     return (
                         <NoteItem
-                            key={noteItem.key}
+                            updateStatus={updateStatus}
+                            key={noteItem._id}
                             noteItem={noteItem}
-                            onNoteItemEdit={updateNote}
-                            onNoteItemDelete={deleteNote}
+                            onNoteItemEdit={updateNoteMutation}
+                            onNoteItemDelete={deleteNoteMutation}
                         />
                     );
                 })}
@@ -60,5 +70,7 @@ function Notes() {
         </div>
     );
 }
+
+Notes.isProtected = true;
 
 export default Notes;

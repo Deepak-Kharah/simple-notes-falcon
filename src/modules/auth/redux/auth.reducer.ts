@@ -30,6 +30,7 @@ function auth(
                     ...state.userDetails,
                     username: action.payload?.username,
                 },
+                hasAuthCheckedOnce: true,
                 isLoading: false,
             };
         case authDispatch.USER_CREATED:
@@ -59,6 +60,7 @@ function auth(
             return {
                 ...state,
                 redirectUrl: action.payload?.redirectUrl,
+                hasAuthCheckedOnce: true,
             };
         case authDispatch.RESET_REDIRECT_URL:
             return {

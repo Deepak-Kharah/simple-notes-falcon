@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import styles from "./NoteItem.module.css";
 
@@ -7,9 +7,16 @@ import { NoteItemProps } from "../types/note.type";
 import ReactModal from "react-modal";
 
 function NoteItem({
-    noteItem = { description: "", key: "", title: "" },
+    noteItem = {
+        content: "",
+        _id: "",
+        title: "",
+        createdAt: "",
+        updatedAt: "",
+    },
     onNoteItemDelete = () => {},
     onNoteItemEdit = () => {},
+    updateStatus,
 }: NoteItemProps) {
     const [note, setNote] = useState(noteItem);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,15 +24,23 @@ function NoteItem({
     function updateNote() {
         if (
             noteItem.title !== note.title ||
-            noteItem.description !== note.description
+            noteItem.content !== note.content
         ) {
-            onNoteItemEdit(noteItem.key, note.title, note.description);
+            onNoteItemEdit({ note: note, noteId: note._id });
         }
         setIsModalOpen(false);
     }
 
+    useEffect(() => {
+        switch (updateStatus) {
+            case "error":
+                setNote(noteItem);
+                break;
+        }
+    }, [updateStatus]);
+
     function deleteNote() {
-        onNoteItemDelete(note.key);
+        onNoteItemDelete(note._id);
     }
 
     function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -52,7 +67,7 @@ function NoteItem({
         <div className={styles["note-container"]}>
             <div className="content" onClick={openModal}>
                 <h3>{noteItem.title}</h3>
-                <p>{noteItem.description}</p>
+                <p>{noteItem.content}</p>
             </div>
             <div>
                 <button onClick={deleteNote}>delete</button>
@@ -66,9 +81,9 @@ function NoteItem({
                         onChange={handleOnTextChange}
                     />
                     <textarea
-                        name="description"
+                        name="content"
                         onChange={handleOnTextChange}
-                        value={note.description}
+                        value={note.content}
                         autoFocus
                     ></textarea>
 
