@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -13,7 +13,7 @@ import AuthGuard from "../modules/auth/components/AuthGuard.component";
 import { isUserLoggedin } from "../modules/auth/redux/auth.action";
 
 // react query
-import { QueryClientProvider, QueryClient } from "react-query";
+import { QueryClientProvider, QueryClient, Hydrate } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import { useRouter } from "next/router";
@@ -29,9 +29,9 @@ declare interface ISimpleTodoDispatchProps {
 declare type ISimpleTodoProps = ISimpleTodoOwnProps & ISimpleTodoDispatchProps;
 
 function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
+    const [queryClient] = useState(() => new QueryClient());
     const dispatch = useDispatch();
     const router = useRouter();
-    const queryClient = new QueryClient();
 
     const { isUserLoggedin } = props;
     const { isProtected = false } = Component;
@@ -49,7 +49,9 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
         <QueryClientProvider client={queryClient}>
             <ChakraProvider>
                 <AuthGuard isProtected={isProtected}>
-                    <Component {...pageProps} />
+                    <Hydrate state={pageProps.dehydratedState}>
+                        <Component {...pageProps} />
+                    </Hydrate>
                 </AuthGuard>
             </ChakraProvider>
             <ReactQueryDevtools initialIsOpen={false} />

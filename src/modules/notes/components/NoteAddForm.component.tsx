@@ -2,16 +2,26 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 
 // interfaces
-import { NoteAddFormProps } from "../types/note.type";
 
 // TODO: a11y for input element
 
-function NoteAddForm({ onFormSubmit = () => {} }: NoteAddFormProps) {
+export declare interface NoteFormProps {
+    onFormSubmit: (title: string, content: string) => void;
+    initialData?: {
+        title: string;
+        content: string;
+    };
+}
+
+function NoteForm({
+    onFormSubmit = () => {},
+    initialData = { title: "", content: "" },
+}: NoteFormProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [note, setNote] = useState({ title: "", description: "" });
+    const [note, setNote] = useState(initialData);
 
     useEffect(() => {
-        ReactModal.setAppElement("body");
+        ReactModal.setAppElement("#__next");
     }, []);
 
     function handleOnTextChange(
@@ -26,12 +36,12 @@ function NoteAddForm({ onFormSubmit = () => {} }: NoteAddFormProps) {
     }
 
     function addNewNote() {
-        if (note.description || note.title) {
-            onFormSubmit(note.title, note.description);
+        if (note.content || note.title) {
+            onFormSubmit(note.title, note.content);
         }
         setNote({
             title: "",
-            description: "",
+            content: "",
         });
         setIsModalOpen(false);
     }
@@ -59,9 +69,9 @@ function NoteAddForm({ onFormSubmit = () => {} }: NoteAddFormProps) {
                         onChange={handleOnTextChange}
                     />
                     <textarea
-                        name="description"
+                        name="content"
                         onChange={handleOnTextChange}
-                        value={note.description}
+                        value={note.content}
                         autoFocus
                     ></textarea>
 
@@ -72,4 +82,4 @@ function NoteAddForm({ onFormSubmit = () => {} }: NoteAddFormProps) {
     );
 }
 
-export default NoteAddForm;
+export default NoteForm;

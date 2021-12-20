@@ -1,10 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    useDisclosure,
+    Box,
+} from "@chakra-ui/react";
+import { Formik } from "formik";
+import { noteItem } from "../types/note.type";
 
 import styles from "./NoteItem.module.css";
 
-// interfaces
-import { NoteItemProps } from "../types/note.type";
-import ReactModal from "react-modal";
+import NoteForm from "./NoteForm.component";
+import {
+    useDeleteNoteQuery,
+    useUpdateNoteQuery,
+} from "../queries/hooks/note.query";
+
+export declare interface NoteItemProps {
+    noteItem: noteItem;
+}
 
 function NoteItem({
     noteItem = {
@@ -14,83 +32,78 @@ function NoteItem({
         createdAt: "",
         updatedAt: "",
     },
-    onNoteItemDelete = () => {},
-    onNoteItemEdit = () => {},
-    updateStatus,
 }: NoteItemProps) {
-    const [note, setNote] = useState(noteItem);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { isOpen: isModalOpen, onClose, onOpen: openModal } = useDisclosure();
+    const router = useRouter();
+    const noteId = (router.query.noteId as string) || undefined;
 
-    function updateNote() {
+    const { mutate: deleteNoteMutation } = useDeleteNoteQuery();
+    const { mutate: updateNoteMutation } = useUpdateNoteQuery();
+
+    useEffect(() => {
+        if (noteId === noteItem._id) {
+            openModal();
+        } else if (!noteId) {
+            onClose();
+        }
+    }, [noteId, noteItem._id]);
+
+    function updateNote(note: { title: string; content: string }) {
         if (
             noteItem.title !== note.title ||
             noteItem.content !== note.content
         ) {
-            onNoteItemEdit({ note: note, noteId: note._id });
+            updateNoteMutation({ note: note, noteId: noteItem._id });
         }
-        setIsModalOpen(false);
-    }
+        router.push("/notes");
 
-    useEffect(() => {
-        switch (updateStatus) {
-            case "error":
-                setNote(noteItem);
-                break;
-        }
-    }, [updateStatus]);
+        onClose();
+    }
 
     function deleteNote() {
-        onNoteItemDelete(note._id);
-    }
-
-    function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        updateNote();
-    }
-
-    function handleOnTextChange(
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) {
-        setNote((prevNote) => {
-            return {
-                ...prevNote,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
-
-    function openModal() {
-        setIsModalOpen(true);
+        deleteNoteMutation(noteItem._id);
     }
 
     return (
-        <div className={styles["note-container"]}>
-            <div className="content" onClick={openModal}>
-                <h3>{noteItem.title}</h3>
-                <p>{noteItem.content}</p>
-            </div>
-            <div>
-                <button onClick={deleteNote}>delete</button>
-            </div>
-            <ReactModal isOpen={isModalOpen} onRequestClose={updateNote}>
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                        type="text"
-                        name="title"
-                        value={note.title}
-                        onChange={handleOnTextChange}
-                    />
-                    <textarea
-                        name="content"
-                        onChange={handleOnTextChange}
-                        value={note.content}
-                        autoFocus
-                    ></textarea>
+        <>
+            <Box className={styles["note-container"]}>
+                <Link
+                    href={`/notes?noteId=${noteItem._id}`}
+                    as={`/notes/${noteItem._id}`}
+                >
+                    <div className="content">
+                        <h3>{noteItem.title}</h3>
+                        <p>{noteItem.content}</p>
+                    </div>
+                </Link>
+                <div>
+                    <button onClick={deleteNote}>delete</button>
+                </div>
+            </Box>
 
-                    <button type="submit">close</button>
-                </form>
-            </ReactModal>
-        </div>
+            <Formik
+                initialValues={{
+                    title: noteItem.title,
+                    content: noteItem.content,
+                }}
+                onSubmit={updateNote}
+            >
+                {({ handleSubmit, handleChange, values }) => (
+                    <Modal isOpen={isModalOpen} onClose={handleSubmit}>
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalBody>
+                                <NoteForm
+                                    handleChange={handleChange}
+                                    handleSubmit={handleSubmit}
+                                    values={values}
+                                />
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
+                )}
+            </Formik>
+        </>
     );
 }
 

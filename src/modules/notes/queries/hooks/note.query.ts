@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
     CreateNoteItemDto,
@@ -6,12 +5,23 @@ import {
     UpdateNoteQueryProps,
 } from "../../types/note.type";
 import { v4 as uuidv4 } from "uuid";
+import {
+    getNotes,
+    getNote,
+    addNote,
+    deleteNote,
+    updateNote,
+} from "../requests";
 
 export const note_query_type = "note";
 
 export function useGetNotesQuery() {
-    return useQuery<noteItem[]>(note_query_type, () => {
-        return axios.get("/notes").then((res) => res.data);
+    return useQuery<noteItem[]>(note_query_type, getNotes);
+}
+
+export function useGetNoteQuery(noteId: string) {
+    return useQuery<noteItem>([note_query_type, noteId], () => {
+        return getNote(noteId);
     });
 }
 
@@ -19,7 +29,7 @@ export function useAddNoteQuery() {
     const queryClient = useQueryClient();
     return useMutation(
         (note: CreateNoteItemDto) => {
-            return axios.post<noteItem>("/notes", note).then((res) => res.data);
+            return addNote(note);
         },
         {
             onMutate: async (note: CreateNoteItemDto) => {
@@ -56,9 +66,7 @@ export function useDeleteNoteQuery() {
     const queryClient = useQueryClient();
     return useMutation(
         (noteId: string) => {
-            return axios
-                .delete<noteItem>(`/notes/${noteId}`)
-                .then((res) => res.data);
+            return deleteNote(noteId);
         },
         {
             onMutate: async (noteId: string) => {
@@ -100,9 +108,7 @@ export function useUpdateNoteQuery() {
     const queryClient = useQueryClient();
     return useMutation(
         ({ note, noteId }: UpdateNoteQueryProps) => {
-            return axios
-                .patch<noteItem>(`/notes/${noteId}`, note)
-                .then((res) => res.data);
+            return updateNote(noteId, note);
         },
         {
             onMutate: async ({ note, noteId }: UpdateNoteQueryProps) => {
@@ -138,6 +144,9 @@ export function useUpdateNoteQuery() {
                     note_query_type,
                     context?.previousNotes
                 );
+            },
+            onSettled: () => {
+                queryClient.invalidateQueries(note_query_type);
             },
         }
     );
