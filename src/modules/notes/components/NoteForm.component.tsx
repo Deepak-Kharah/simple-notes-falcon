@@ -1,6 +1,9 @@
-import { Stack, FormControl, Input, Textarea, Button } from "@chakra-ui/react";
+import { Stack, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { Form } from "formik";
 import React from "react";
+import ResizeTextarea from "react-textarea-autosize";
+
+import styles from "./NoteForm.module.css";
 
 const noteFormField = {
     title: "title",
@@ -23,12 +26,13 @@ export declare interface NoteFormProps {
 function NoteForm(props: NoteFormProps) {
     const { handleSubmit, handleChange, values } = props;
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className={styles["form-container"]}>
             <Stack maxWidth={"50rem"} margin="auto" spacing="5">
-                <FormControl id={noteFormField.title}>
+                <FormControl id={noteFormField.title} mt="1.5rem">
                     <Input
+                        className={styles["title"]}
                         placeholder="Title"
-                        variant="outline"
+                        variant="unstyled"
                         type="text"
                         name={noteFormField.title}
                         onChange={handleChange}
@@ -36,19 +40,25 @@ function NoteForm(props: NoteFormProps) {
                     />
                 </FormControl>
 
-                <FormControl id={noteFormField.content}>
+                <FormControl
+                    id={noteFormField.content}
+                    style={{ marginTop: "0.5rem" }}
+                >
                     <Textarea
+                        variant="unstyled"
                         autoFocus
                         placeholder="Release your thoughts..."
                         name={noteFormField.content}
                         onChange={handleChange}
                         value={values.content}
+                        minH="unset"
+                        overflow="hidden"
+                        w="100%"
+                        resize="none"
+                        minRows={5}
+                        as={ResizeTextarea}
                     />
                 </FormControl>
-
-                <Button colorScheme="teal" loadingText={""} type="submit">
-                    Submit
-                </Button>
             </Stack>
         </Form>
     );

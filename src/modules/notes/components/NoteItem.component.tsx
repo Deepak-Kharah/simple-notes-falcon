@@ -8,12 +8,18 @@ import {
     ModalBody,
     useDisclosure,
     Box,
+    IconButton,
+    Tooltip,
+    ModalFooter,
+    Text,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
+import moment from "moment";
 import { Formik } from "formik";
-import { noteItem } from "../types/note.type";
 
 import styles from "./NoteItem.module.css";
 
+import { noteItem } from "../types/note.type";
 import NoteForm from "./NoteForm.component";
 import {
     useDeleteNoteQuery,
@@ -22,6 +28,28 @@ import {
 
 export declare interface NoteItemProps {
     noteItem: noteItem;
+}
+
+function NoteItemFooter({ deleteNote }: { deleteNote: () => void }) {
+    return (
+        <Box className={styles["footer"]}>
+            <Tooltip
+                label="Delete Note"
+                fontSize="xs"
+                color="gray.700"
+                bgColor="white"
+            >
+                <IconButton
+                    isRound
+                    color="gray.100"
+                    variant="ghost"
+                    aria-label="Delete note"
+                    icon={<DeleteIcon color="gray.600" />}
+                    onClick={deleteNote}
+                />
+            </Tooltip>
+        </Box>
+    );
 }
 
 function NoteItem({
@@ -71,14 +99,18 @@ function NoteItem({
                     href={`/notes?noteId=${noteItem._id}`}
                     as={`/notes/${noteItem._id}`}
                 >
-                    <div className="content">
-                        <h3>{noteItem.title}</h3>
-                        <p>{noteItem.content}</p>
-                    </div>
+                    <Box className={styles["content"]}>
+                        <h3 className={styles["note-title"]}>
+                            {noteItem.title}
+                        </h3>
+                        <Text noOfLines={6} as="p">
+                            {noteItem.content}
+                        </Text>
+                    </Box>
                 </Link>
-                <div>
-                    <button onClick={deleteNote}>delete</button>
-                </div>
+                <Box className={styles["footer"]}>
+                    <NoteItemFooter deleteNote={deleteNote} />
+                </Box>
             </Box>
 
             <Formik
@@ -89,7 +121,12 @@ function NoteItem({
                 onSubmit={updateNote}
             >
                 {({ handleSubmit, handleChange, values }) => (
-                    <Modal isOpen={isModalOpen} onClose={handleSubmit}>
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={handleSubmit}
+                        size={"lg"}
+                        scrollBehavior="inside"
+                    >
                         <ModalOverlay />
                         <ModalContent>
                             <ModalBody>
@@ -98,7 +135,16 @@ function NoteItem({
                                     handleSubmit={handleSubmit}
                                     values={values}
                                 />
+                                <Box className={styles["timestamp"]}>
+                                    <Text color={"gray.500"} fontSize={"xs"}>
+                                        Last edited,{" "}
+                                        {moment(noteItem.updatedAt).fromNow()}
+                                    </Text>
+                                </Box>
                             </ModalBody>
+                            <ModalFooter>
+                                <NoteItemFooter deleteNote={deleteNote} />
+                            </ModalFooter>
                         </ModalContent>
                     </Modal>
                 )}
