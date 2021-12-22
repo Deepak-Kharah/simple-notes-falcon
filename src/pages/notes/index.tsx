@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { v4 as uuidV4 } from "uuid";
-import { useMutation, useQuery } from "react-query";
-
 // components
 import NoteAddForm from "../../modules/notes/components/NoteAddForm.component";
 import NoteItem from "../../modules/notes/components/NoteItem.component";
@@ -14,6 +10,7 @@ import {
     useAddNoteQuery,
     useGetNotesQuery,
 } from "../../modules/notes/queries/hooks/note.query";
+import { Box } from "@chakra-ui/react";
 
 function Notes() {
     const {
@@ -41,15 +38,18 @@ function Notes() {
         return <div>Something went wrong...</div>;
     }
     return (
-        <div>
+        <Box>
             {isFetching && <div>fetching...</div>}
             <NoteAddForm onFormSubmit={addNewNote} />
-            <div className={styles["notes-container"]}>
+            <div
+                className={styles["notes-container"]}
+                style={{ width: "fit-content" }}
+            >
                 {noteItems?.map((noteItem) => {
                     return <NoteItem key={noteItem._id} noteItem={noteItem} />;
                 })}
             </div>
-        </div>
+        </Box>
     );
 }
 

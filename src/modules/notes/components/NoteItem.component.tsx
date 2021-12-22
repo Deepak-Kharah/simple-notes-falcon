@@ -32,7 +32,7 @@ export declare interface NoteItemProps {
 
 function NoteItemFooter({ deleteNote }: { deleteNote: () => void }) {
     return (
-        <Box className={styles["footer"]}>
+        <Box>
             <Tooltip
                 label="Delete Note"
                 fontSize="xs"

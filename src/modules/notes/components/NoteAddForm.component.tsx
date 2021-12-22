@@ -1,5 +1,19 @@
-import React, { useState, useEffect } from "react";
-import ReactModal from "react-modal";
+import { DeleteIcon } from "@chakra-ui/icons";
+import {
+    Box,
+    IconButton,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalOverlay,
+    Tooltip,
+    useDisclosure,
+} from "@chakra-ui/react";
+import { Formik } from "formik";
+import React, { useState } from "react";
+import NoteForm from "./NoteForm.component";
 
 // interfaces
 
@@ -7,79 +21,119 @@ import ReactModal from "react-modal";
 
 export declare interface NoteFormProps {
     onFormSubmit: (title: string, content: string) => void;
-    initialData?: {
-        title: string;
-        content: string;
+}
+
+export declare interface NoteAddFooterProps {
+    deleteNote: () => void;
+    showActions: {
+        deleteAction: boolean;
     };
 }
 
-function NoteForm({
-    onFormSubmit = () => {},
-    initialData = { title: "", content: "" },
-}: NoteFormProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [note, setNote] = useState(initialData);
-
-    useEffect(() => {
-        ReactModal.setAppElement("#__next");
-    }, []);
-
-    function handleOnTextChange(
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) {
-        setNote((prevNote) => {
-            return {
-                ...prevNote,
-                [event.target.name]: event.target.value,
-            };
-        });
-    }
-
-    function addNewNote() {
-        if (note.content || note.title) {
-            onFormSubmit(note.title, note.content);
-        }
-        setNote({
-            title: "",
-            content: "",
-        });
-        setIsModalOpen(false);
-    }
-
-    function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        addNewNote();
-    }
-
+function NoteAddFooter({ deleteNote, showActions }: NoteAddFooterProps) {
+    const { deleteAction: showDeleteAction = false } = showActions;
     return (
-        <div>
-            <button
-                onClick={() => {
-                    setIsModalOpen((prev) => !prev);
-                }}
-            >
-                click me
-            </button>
-            <ReactModal isOpen={isModalOpen} onRequestClose={addNewNote}>
-                <form onSubmit={handleFormSubmit}>
-                    <input
-                        type="text"
-                        name="title"
-                        value={note.title}
-                        onChange={handleOnTextChange}
+        <Box h={"40px"}>
+            {showDeleteAction && (
+                <Tooltip
+                    label="Delete Note"
+                    fontSize="xs"
+                    color="gray.700"
+                    bgColor="white"
+                >
+                    <IconButton
+                        isRound
+                        color="gray.100"
+                        variant="ghost"
+                        aria-label="Delete note"
+                        icon={<DeleteIcon color="gray.600" />}
+                        onClick={deleteNote}
                     />
-                    <textarea
-                        name="content"
-                        onChange={handleOnTextChange}
-                        value={note.content}
-                        autoFocus
-                    ></textarea>
-
-                    <button type="submit">close</button>
-                </form>
-            </ReactModal>
-        </div>
+                </Tooltip>
+            )}
+        </Box>
     );
 }
 
-export default NoteForm;
+function AddNoteComponent({ onFormSubmit = () => {} }: NoteFormProps) {
+    const [showActions, setShowActions] = useState({ deleteAction: false });
+    const { isOpen: isModalOpen, onClose, onOpen: openModal } = useDisclosure();
+
+    function addNewNote(note: { title: string; content: string }) {
+        const trimmedTitle = note.title.trim();
+        const trimmedContent = note.content.trim();
+
+        if (trimmedTitle || trimmedContent) {
+            onFormSubmit(trimmedTitle, trimmedContent);
+        }
+
+        onClose();
+    }
+
+    function validateForm(values: { title: string; content: string }) {
+        if (!values.title && !values.content) {
+            setShowActions((prevActions) => {
+                return {
+                    ...prevActions,
+                    deleteAction: false,
+                };
+            });
+        } else {
+            setShowActions((prevActions) => {
+                return {
+                    ...prevActions,
+                    deleteAction: true,
+                };
+            });
+        }
+    }
+
+    return (
+        <Box display={"flex"} justifyContent={"center"}>
+            <Input
+                maxW={"2xl"}
+                readOnly
+                onClick={openModal}
+                placeholder="Take a note..."
+            />
+
+            <Formik
+                onSubmit={addNewNote}
+                initialValues={{ title: "", content: "" }}
+                validate={validateForm}
+            >
+                {({ handleChange, handleSubmit, values, resetForm }) => (
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={handleSubmit}
+                        size={"lg"}
+                        scrollBehavior="inside"
+                        returnFocusOnClose={false}
+                    >
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalBody>
+                                <NoteForm
+                                    handleChange={handleChange}
+                                    handleSubmit={handleSubmit}
+                                    values={values}
+                                />
+                            </ModalBody>
+                            <ModalFooter>
+                                <NoteAddFooter
+                                    deleteNote={() => {
+                                        resetForm();
+                                        onClose();
+                                    }}
+                                    showActions={showActions}
+                                />
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                )}
+            </Formik>
+        </Box>
+    );
+}
+
+export default AddNoteComponent;
