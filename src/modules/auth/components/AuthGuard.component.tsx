@@ -63,7 +63,7 @@ function AuthGuard(props: IAuthGuardProps): JSX.Element {
 
     if (isProtected) {
         if (isAuthLoading || !hasAuthenticatedOnce) {
-            return <div>Loading...</div>;
+            return <div>Loading content...</div>;
         }
 
         if (!isAuthenticated) {

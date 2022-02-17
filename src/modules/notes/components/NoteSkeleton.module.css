@@ -1,0 +1,15 @@
+.note-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--chakra-colors-gray-200);
+    border-radius: var(--chakra-radii-lg);
+    width: var(--chakra-sizes-full);
+}
+
+@media screen and (min-width: 600px) {
+    .note-container {
+        width: var(--chakra-sizes-2xs);
+    }
+}

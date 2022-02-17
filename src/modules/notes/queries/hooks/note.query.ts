@@ -16,13 +16,19 @@ import {
 export const note_query_type = "note";
 
 export function useGetNotesQuery() {
-    return useQuery<noteItem[]>(note_query_type, getNotes);
+    return useQuery<noteItem[]>(note_query_type, getNotes, {
+        staleTime: 50000,
+    });
 }
 
 export function useGetNoteQuery(noteId: string) {
-    return useQuery<noteItem>([note_query_type, noteId], () => {
-        return getNote(noteId);
-    });
+    return useQuery<noteItem>(
+        [note_query_type, noteId],
+        () => {
+            return getNote(noteId);
+        },
+        { staleTime: 5000 }
+    );
 }
 
 export function useAddNoteQuery() {

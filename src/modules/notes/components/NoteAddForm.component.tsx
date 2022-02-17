@@ -13,9 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 import React, { useState } from "react";
-import NoteForm from "./NoteForm.component";
 
-// interfaces
+import NoteForm from "./NoteForm.component";
+import styles from "./NoteAddForm.module.css";
 
 // TODO: a11y for input element
 
@@ -89,7 +89,7 @@ function AddNoteComponent({ onFormSubmit = () => {} }: NoteFormProps) {
     }
 
     return (
-        <Box display={"flex"} justifyContent={"center"}>
+        <Box className={styles["note-add-container"]}>
             <Input
                 maxW={"2xl"}
                 readOnly

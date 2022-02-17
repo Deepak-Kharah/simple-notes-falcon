@@ -11,6 +11,7 @@ import {
     useGetNotesQuery,
 } from "../../modules/notes/queries/hooks/note.query";
 import { Box } from "@chakra-ui/react";
+import NoteSkeleton from "../../modules/notes/components/NoteSkeleton.component";
 
 function Notes() {
     const {
@@ -30,10 +31,6 @@ function Notes() {
         addNoteMutation(newNote);
     }
 
-    if (isLoading) {
-        return <div>Notes are loading...</div>;
-    }
-
     if (isError) {
         return <div>Something went wrong...</div>;
     }
@@ -41,14 +38,25 @@ function Notes() {
         <Box>
             {isFetching && <div>fetching...</div>}
             <NoteAddForm onFormSubmit={addNewNote} />
-            <div
-                className={styles["notes-container"]}
-                style={{ width: "fit-content" }}
-            >
-                {noteItems?.map((noteItem) => {
-                    return <NoteItem key={noteItem._id} noteItem={noteItem} />;
-                })}
-            </div>
+            <Box className={styles["notes-shell"]}>
+                <Box
+                    className={styles["notes-container"]}
+                    style={{ width: "fit-content" }}
+                >
+                    {isLoading
+                        ? Array.from(Array(5).keys()).map((key) => {
+                              return <NoteSkeleton key={key} />;
+                          })
+                        : noteItems?.map((noteItem) => {
+                              return (
+                                  <NoteItem
+                                      key={noteItem._id}
+                                      noteItem={noteItem}
+                                  />
+                              );
+                          })}
+                </Box>
+            </Box>
         </Box>
     );
 }
