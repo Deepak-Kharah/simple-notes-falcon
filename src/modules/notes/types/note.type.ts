@@ -1,15 +1,22 @@
+import { MutationStatus } from "react-query/types/core/types";
+
 export declare interface noteItem {
+    _id: string;
     title: string;
-    description: string;
-    key: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
-export declare interface NoteAddFormProps {
-    onFormSubmit: (title: string, description: string) => void;
+// DTOs
+export declare interface CreateNoteItemDto {
+    title: string;
+    content: string;
 }
 
-export declare interface NoteItemProps {
-    noteItem: noteItem;
-    onNoteItemEdit: (key: string, title: string, description: string) => void;
-    onNoteItemDelete: (key: string) => void;
+// queries
+
+export declare interface UpdateNoteQueryProps {
+    noteId: string;
+    note: CreateNoteItemDto;
 }

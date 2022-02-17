@@ -1,3 +1,10 @@
 .notes-container {
     display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.notes-shell {
+    display: flex;
+    justify-content: center;
 }

@@ -1,7 +1,56 @@
 .note-container {
+    display: flex;
+    flex-direction: column;
     margin: 0.5rem;
-    border: 1px solid gray;
-    border-radius: 5px;
-    min-width: 10rem;
-    padding: 0.5rem;
+    border: 1px solid var(--chakra-colors-gray-200);
+    border-radius: var(--chakra-radii-lg);
+    width: var(--chakra-sizes-full);
+    transition: all 0.2s ease-in-out;
+}
+
+.note-container:hover {
+    border: 1px solid var(--chakra-colors-gray-300);
+    box-shadow: var(--chakra-colors-gray-100) 0px 8px 24px;
+}
+
+.note-container .content {
+    margin: var(--chakra-space-3) var(--chakra-space-4);
+    margin-bottom: 0;
+    flex: 1;
+    cursor: pointer;
+}
+
+.note-container .content h3.note-title {
+    font-size: var(--chakra-fontSizes-md);
+    font-weight: var(--chakra-fontWeights-bold);
+    color: var(--chakra-colors-blue-800);
+}
+
+.note-container .footer {
+    display: flex;
+    justify-content: flex-end;
+    margin: var(--chakra-space-1) var(--chakra-space-2);
+}
+
+.timestamp {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (min-width: 600px) {
+    .note-container {
+        width: var(--chakra-sizes-2xs);
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .note-container .footer {
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .note-container:hover .footer,
+    .note-container:focus-within .footer {
+        opacity: 1;
+    }
 }

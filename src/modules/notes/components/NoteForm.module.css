@@ -1,0 +1,5 @@
+.form-container :global(#title) {
+    font-size: var(--chakra-fontSizes-lg);
+    font-weight: var(--chakra-fontWeights-semibold);
+    /* background-color: gray; */
+}
