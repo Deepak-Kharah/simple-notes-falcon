@@ -1,0 +1,26 @@
+.empty-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.empty-state-container .empty-state-icon {
+    width: 15rem;
+    max-width: 50vw;
+}
+
+.empty-state-container .empty-state-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-state-container .empty-state-content > h3 {
+    font-weight: 700;
+    color: var(--chakra-colors-gray-700);
+}
+.empty-state-container .empty-state-content > p {
+    color: var(--chakra-colors-gray-400);
+    font-size: var(--chakra-fontSizes-sm);
+}

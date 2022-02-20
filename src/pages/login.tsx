@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -20,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../modules/redux/hooks/redux.hooks";
 import { authDispatch } from "../modules/auth/redux/auth.dispatch-type";
+import Link from "next/link";
 
 declare interface ILoginOwnProps {}
 
@@ -71,8 +71,23 @@ function Login(props: ILoginProps) {
     }, [isAuthenticated]);
 
     return (
-        <div>
-            <h1>Login page</h1>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                justifyContent: "center",
+            }}
+        >
+            <header
+                style={{
+                    textAlign: "center",
+                    fontSize: "2rem",
+                    marginBottom: "2rem",
+                }}
+            >
+                <h1>Welcome back to Simply Notes</h1>
+            </header>
             <Formik
                 initialValues={{
                     username: "",
@@ -130,6 +145,10 @@ function Login(props: ILoginProps) {
                             >
                                 Log in
                             </Button>
+                            <p>
+                                Need an Account?{" "}
+                                <Link href={"/register"}>Register</Link>
+                            </p>
                         </Stack>
                     </Form>
                 )}

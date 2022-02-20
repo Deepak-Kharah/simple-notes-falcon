@@ -1,5 +1,37 @@
 .note-add-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 0.5rem;
+    flex-direction: column;
+}
+
+.notes-loader {
+    height: 1px;
+    width: 100%;
+    border-radius: 1px;
+    max-width: var(--chakra-sizes-xl);
+    overflow: hidden;
+}
+
+.notes-loader > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.notes-loader.show > div {
+    background-color: var(--chakra-colors-gray-300);
+    animation: sweepLoad 1.5s infinite ease-out;
+}
+
+@keyframes sweepLoad {
+    0% {
+        left: -100%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 70%;
+    }
 }

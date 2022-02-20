@@ -87,3 +87,20 @@ export function isUserLoggedin() {
         }
     };
 }
+
+export function logoutUser() {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch({
+                type: authDispatch.AUTH_LOADING,
+            });
+            await axios.get("/auth/logout");
+
+            dispatch({
+                type: authDispatch.USER_LOGGED_OUT,
+            });
+        } catch (error) {
+            console.error("logout error", error);
+        }
+    };
+}

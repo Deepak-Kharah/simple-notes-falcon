@@ -44,7 +44,7 @@ function NoteItemFooter({ deleteNote }: { deleteNote: () => void }) {
                     color="gray.100"
                     variant="ghost"
                     aria-label="Delete note"
-                    icon={<DeleteIcon color="gray.600" />}
+                    icon={<DeleteIcon color="gray.400" />}
                     onClick={deleteNote}
                 />
             </Tooltip>
