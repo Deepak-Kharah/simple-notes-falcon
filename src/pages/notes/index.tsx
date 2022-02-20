@@ -5,13 +5,18 @@ import NoteItem from "../../modules/notes/components/NoteItem.component";
 import styles from "../../../styles/notes.module.css";
 
 // interfaces
-import { CreateNoteItemDto } from "../../modules/notes/types/note.type";
+import {
+    CreateNoteItemDto,
+    noteItem,
+} from "../../modules/notes/types/note.type";
 import {
     useAddNoteQuery,
     useGetNotesQuery,
 } from "../../modules/notes/queries/hooks/note.query";
 import { Box } from "@chakra-ui/react";
 import NoteSkeleton from "../../modules/notes/components/NoteSkeleton.component";
+import Layout from "../../modules/notes/components/Layout.component";
+import NoteItems from "../../modules/notes/components/NoteItems.component";
 
 function Notes() {
     const {
@@ -36,27 +41,24 @@ function Notes() {
     }
     return (
         <Box>
-            {isFetching && <div>fetching...</div>}
-            <NoteAddForm onFormSubmit={addNewNote} />
-            <Box className={styles["notes-shell"]}>
-                <Box
-                    className={styles["notes-container"]}
-                    style={{ width: "fit-content" }}
-                >
-                    {isLoading
-                        ? Array.from(Array(5).keys()).map((key) => {
-                              return <NoteSkeleton key={key} />;
-                          })
-                        : noteItems?.map((noteItem) => {
-                              return (
-                                  <NoteItem
-                                      key={noteItem._id}
-                                      noteItem={noteItem}
-                                  />
-                              );
-                          })}
+            <Layout>
+                <NoteAddForm
+                    onFormSubmit={addNewNote}
+                    isFetching={isFetching}
+                />
+
+                <Box className={styles["notes-shell"]}>
+                    <Box
+                        className={styles["notes-container"]}
+                        style={{ width: "fit-content" }}
+                    >
+                        <NoteItems
+                            isLoading={isLoading}
+                            noteItems={noteItems}
+                        />
+                    </Box>
                 </Box>
-            </Box>
+            </Layout>
         </Box>
     );
 }
