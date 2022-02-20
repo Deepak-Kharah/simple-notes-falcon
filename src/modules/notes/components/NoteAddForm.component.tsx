@@ -16,11 +16,13 @@ import React, { useState } from "react";
 
 import NoteForm from "./NoteForm.component";
 import styles from "./NoteAddForm.module.css";
+import { cx } from "@emotion/css";
 
 // TODO: a11y for input element
 
 export declare interface NoteFormProps {
     onFormSubmit: (title: string, content: string) => void;
+    isFetching: boolean;
 }
 
 export declare interface NoteAddFooterProps {
@@ -55,7 +57,8 @@ function NoteAddFooter({ deleteNote, showActions }: NoteAddFooterProps) {
     );
 }
 
-function AddNoteComponent({ onFormSubmit = () => {} }: NoteFormProps) {
+function AddNoteComponent(props: NoteFormProps) {
+    const { onFormSubmit = () => {}, isFetching = false } = props;
     const [showActions, setShowActions] = useState({ deleteAction: false });
     const { isOpen: isModalOpen, onClose, onOpen: openModal } = useDisclosure();
 
@@ -132,6 +135,13 @@ function AddNoteComponent({ onFormSubmit = () => {} }: NoteFormProps) {
                     </Modal>
                 )}
             </Formik>
+            <div
+                className={cx(styles["notes-loader"], {
+                    [styles["show"]]: isFetching,
+                })}
+            >
+                <div></div>
+            </div>
         </Box>
     );
 }

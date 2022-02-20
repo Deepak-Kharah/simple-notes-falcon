@@ -1,0 +1,18 @@
+.nav {
+    border-bottom: 1px solid var(--chakra-colors-gray-200);
+}
+
+.nav .menu-logout-button:hover {
+    color: var(--chakra-colors-red-600);
+}
+
+.nav :global(.chakra-menu__icon-wrapper) {
+    display: flex;
+}
+
+.nav .avatar {
+    border: 1px solid var(--chakra-colors-gray-200);
+    width: var(--chakra-fontSizes-5xl);
+    height: var(--chakra-fontSizes-5xl);
+    color: var(--chakra-colors-gray-500);
+}

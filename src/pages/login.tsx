@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";

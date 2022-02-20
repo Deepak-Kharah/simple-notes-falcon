@@ -43,6 +43,7 @@ function auth(
                 isLoading: true,
             };
         case authDispatch.AUTH_ERROR:
+        case authDispatch.USER_LOGGED_OUT:
         case authDispatch.USER_CREATE_FAILED:
         case authDispatch.USER_LOGGED_IN_FAILED:
             return {
