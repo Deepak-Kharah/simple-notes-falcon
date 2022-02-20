@@ -17,6 +17,7 @@ import { registerUser } from "../modules/auth/redux/auth.action";
 import { State } from "../modules/redux/store";
 import { RegisterDto } from "../modules/auth/types/auth.dto";
 import { registrationSchema } from "../modules/auth/yup/auth.yup-schema";
+import Link from "next/link";
 
 declare interface IRegisterOwnProps {}
 
@@ -56,8 +57,23 @@ const Register = (props: IRegisterProps) => {
     };
 
     return (
-        <div>
-            <h1>Reg page</h1>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                justifyContent: "center",
+            }}
+        >
+            <header
+                style={{
+                    textAlign: "center",
+                    fontSize: "2rem",
+                    marginBottom: "2rem",
+                }}
+            >
+                <h1>Welcome to Simply Notes</h1>
+            </header>
             <Formik
                 validateOnChange
                 validateOnBlur
@@ -191,11 +207,15 @@ const Register = (props: IRegisterProps) => {
                             <Button
                                 isLoading={props.authLoading}
                                 loadingText="Registering"
-                                colorScheme="blue"
+                                colorScheme="teal"
                                 type="submit"
                             >
                                 Register
                             </Button>
+                            <p>
+                                Already have an account?{" "}
+                                <Link href={"/login"}>Log in</Link>
+                            </p>
                         </Stack>
                     </Form>
                 )}
