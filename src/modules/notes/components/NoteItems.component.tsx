@@ -44,7 +44,6 @@ function NoteItems(props: INoteItemProps) {
     return (
         <>
             {noteItems.map((noteItem) => {
-                console.log("mayhem 23");
                 return <NoteItem key={noteItem._id} noteItem={noteItem} />;
             })}
         </>

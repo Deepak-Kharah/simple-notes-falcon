@@ -62,7 +62,10 @@ function AddNoteComponent(props: NoteFormProps) {
     const [showActions, setShowActions] = useState({ deleteAction: false });
     const { isOpen: isModalOpen, onClose, onOpen: openModal } = useDisclosure();
 
-    function addNewNote(note: { title: string; content: string }) {
+    function addNewNote(
+        note: { title: string; content: string },
+        resetForm: () => void
+    ) {
         const trimmedTitle = note.title.trim();
         const trimmedContent = note.content.trim();
 
@@ -70,6 +73,7 @@ function AddNoteComponent(props: NoteFormProps) {
             onFormSubmit(trimmedTitle, trimmedContent);
         }
 
+        resetForm();
         onClose();
     }
 
@@ -101,39 +105,46 @@ function AddNoteComponent(props: NoteFormProps) {
             />
 
             <Formik
-                onSubmit={addNewNote}
+                onSubmit={(note, { resetForm }) => {
+                    addNewNote(note, resetForm);
+                }}
                 initialValues={{ title: "", content: "" }}
                 validate={validateForm}
             >
-                {({ handleChange, handleSubmit, values, resetForm }) => (
-                    <Modal
-                        isOpen={isModalOpen}
-                        onClose={handleSubmit}
-                        size={"lg"}
-                        scrollBehavior="inside"
-                        returnFocusOnClose={false}
-                    >
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalBody>
-                                <NoteForm
-                                    handleChange={handleChange}
-                                    handleSubmit={handleSubmit}
-                                    values={values}
-                                />
-                            </ModalBody>
-                            <ModalFooter>
-                                <NoteAddFooter
-                                    deleteNote={() => {
-                                        resetForm();
-                                        onClose();
-                                    }}
-                                    showActions={showActions}
-                                />
-                            </ModalFooter>
-                        </ModalContent>
-                    </Modal>
-                )}
+                {({ handleChange, handleSubmit, values, resetForm }) => {
+                    function submitForm() {
+                        handleSubmit();
+                    }
+                    return (
+                        <Modal
+                            isOpen={isModalOpen}
+                            onClose={submitForm}
+                            size={"3xl"}
+                            scrollBehavior="inside"
+                            returnFocusOnClose={false}
+                        >
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalBody>
+                                    <NoteForm
+                                        handleChange={handleChange}
+                                        handleSubmit={submitForm}
+                                        values={values}
+                                    />
+                                </ModalBody>
+                                <ModalFooter>
+                                    <NoteAddFooter
+                                        deleteNote={() => {
+                                            resetForm();
+                                            onClose();
+                                        }}
+                                        showActions={showActions}
+                                    />
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+                    );
+                }}
             </Formik>
             <div
                 className={cx(styles["notes-loader"], {

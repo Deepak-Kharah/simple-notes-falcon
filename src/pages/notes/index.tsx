@@ -1,14 +1,10 @@
 // components
 import NoteAddForm from "../../modules/notes/components/NoteAddForm.component";
-import NoteItem from "../../modules/notes/components/NoteItem.component";
 
 import styles from "../../../styles/notes.module.css";
 
 // interfaces
-import {
-    CreateNoteItemDto,
-    noteItem,
-} from "../../modules/notes/types/note.type";
+import { CreateNoteItemDto } from "../../modules/notes/types/note.type";
 import {
     useAddNoteQuery,
     useGetNotesQuery,
