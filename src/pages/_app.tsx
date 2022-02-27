@@ -19,6 +19,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 import { useRouter } from "next/router";
 import { theme } from "../modules/common/config/theme";
+import UiAlertHOC from "../modules/ui-message/components/UiAlertHOC.components";
 
 declare interface ISimpleTodoOwnProps extends AppProps {
     Component: AppProps["Component"] & { isProtected?: boolean };
@@ -51,42 +52,44 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
         <QueryClientProvider client={queryClient}>
             <ChakraProvider theme={theme}>
                 <AuthGuard isProtected={isProtected}>
-                    <Hydrate state={pageProps.dehydratedState}>
-                        <Head>
-                            <title>
-                                Simply Notes • A project by Deepak Kharah
-                            </title>
-                            <link
-                                rel="apple-touch-icon"
-                                sizes="180x180"
-                                href="/apple-touch-icon.png"
-                            />
-                            <link
-                                rel="icon"
-                                type="image/png"
-                                sizes="32x32"
-                                href="/favicon-32x32.png"
-                            />
-                            <link
-                                rel="icon"
-                                type="image/png"
-                                sizes="16x16"
-                                href="/favicon-16x16.png"
-                            />
-                            <link rel="manifest" href="/site.webmanifest" />
-                            <link
-                                rel="mask-icon"
-                                href="/safari-pinned-tab.svg"
-                                color="#373943"
-                            />
-                            <meta
-                                name="msapplication-TileColor"
-                                content="#373943"
-                            />
-                            <meta name="theme-color" content="#ffffff" />
-                        </Head>
-                        <Component {...pageProps} />
-                    </Hydrate>
+                    <UiAlertHOC>
+                        <Hydrate state={pageProps.dehydratedState}>
+                            <Head>
+                                <title>
+                                    Simply Notes • A project by Deepak Kharah
+                                </title>
+                                <link
+                                    rel="apple-touch-icon"
+                                    sizes="180x180"
+                                    href="/apple-touch-icon.png"
+                                />
+                                <link
+                                    rel="icon"
+                                    type="image/png"
+                                    sizes="32x32"
+                                    href="/favicon-32x32.png"
+                                />
+                                <link
+                                    rel="icon"
+                                    type="image/png"
+                                    sizes="16x16"
+                                    href="/favicon-16x16.png"
+                                />
+                                <link rel="manifest" href="/site.webmanifest" />
+                                <link
+                                    rel="mask-icon"
+                                    href="/safari-pinned-tab.svg"
+                                    color="#373943"
+                                />
+                                <meta
+                                    name="msapplication-TileColor"
+                                    content="#373943"
+                                />
+                                <meta name="theme-color" content="#ffffff" />
+                            </Head>
+                            <Component {...pageProps} />
+                        </Hydrate>
+                    </UiAlertHOC>
                 </AuthGuard>
             </ChakraProvider>
             <ReactQueryDevtools initialIsOpen={false} />

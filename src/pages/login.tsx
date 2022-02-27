@@ -136,9 +136,6 @@ function Login(props: ILoginProps) {
                             </FormControl>
 
                             <Button
-                                // colorScheme="gray"
-                                // background={"gray.700"}
-                                // color={"white"}
                                 isLoading={isAuthLoading}
                                 loadingText={"Logging in"}
                                 type="submit"
