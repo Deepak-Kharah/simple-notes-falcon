@@ -16,3 +16,14 @@
     height: var(--chakra-fontSizes-5xl);
     color: var(--chakra-colors-gray-500);
 }
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--chakra-space-4);
+}
+
+.brand p {
+    font-weight: var(--chakra-fontWeights-light);
+    font-size: var(--chakra-fontSizes-xl);
+}

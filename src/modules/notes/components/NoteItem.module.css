@@ -37,6 +37,14 @@
     justify-content: flex-end;
 }
 
+.delete-button svg path {
+    fill: var(--chakra-colors-gray-400);
+}
+
+.delete-button:hover svg path {
+    fill: var(--chakra-colors-gray-600);
+}
+
 @media screen and (min-width: 600px) {
     .note-container {
         width: var(--chakra-sizes-2xs);

@@ -1,7 +1,6 @@
 import {
     Box,
     Flex,
-    Avatar,
     Button,
     Menu,
     MenuButton,
@@ -11,14 +10,14 @@ import {
 import { MoonIcon } from "@chakra-ui/icons";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { useRouter } from "next/router";
 
 import styles from "./Navbar.module.css";
 import { State } from "../../redux/store";
 import { logoutUser } from "../../auth/redux/auth.action";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { generateInitials } from "../utils/authUtils";
 import { useLogoutUser } from "../../auth/hooks/auth.hooks";
+import SimplyNotesLogo from "./Logo";
 
 declare interface INavbarOwnProps {}
 
@@ -40,11 +39,13 @@ function Navbar(props: INavbarProps) {
     const logoutCallback = useLogoutUser(logoutUser);
 
     const initials = useMemo(() => generateInitials(username), []);
-    console.log("initials", initials);
     return (
         <Box boxShadow="base" px={4} className={styles["nav"]}>
             <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-                <Box>Simply Notes</Box>
+                <Box className={styles["brand"]}>
+                    <SimplyNotesLogo width={30} height={30} />
+                    <p>Simply Notes</p>
+                </Box>
                 <Flex alignItems={"center"}>
                     <Menu>
                         <MenuButton

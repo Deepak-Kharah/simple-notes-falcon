@@ -18,6 +18,7 @@ import { QueryClientProvider, QueryClient, Hydrate } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import { useRouter } from "next/router";
+import { theme } from "../modules/common/config/theme";
 
 declare interface ISimpleTodoOwnProps extends AppProps {
     Component: AppProps["Component"] & { isProtected?: boolean };
@@ -48,7 +49,7 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
                 <AuthGuard isProtected={isProtected}>
                     <Hydrate state={pageProps.dehydratedState}>
                         <Head>

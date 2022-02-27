@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { compose } from "redux";
-
-import { loginUser } from "../modules/auth/redux/auth.action";
-import { LoginDto } from "../modules/auth/types/auth.dto";
-import React from "react";
-import { State } from "../modules/redux/store";
 import {
     Button,
     FormControl,
@@ -17,9 +12,19 @@ import {
     Stack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
+//redux
+import { loginUser } from "../modules/auth/redux/auth.action";
+import { LoginDto } from "../modules/auth/types/auth.dto";
+import { State } from "../modules/redux/store";
 import { useAppDispatch } from "../modules/redux/hooks/redux.hooks";
 import { authDispatch } from "../modules/auth/redux/auth.dispatch-type";
-import Link from "next/link";
+
+// components
+import SimplyNotesLogo from "../modules/common/components/Logo";
+
+import styles from "../../styles/auth-page.module.css";
 
 declare interface ILoginOwnProps {}
 
@@ -71,22 +76,15 @@ function Login(props: ILoginProps) {
     }, [isAuthenticated]);
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-                justifyContent: "center",
-            }}
-        >
-            <header
-                style={{
-                    textAlign: "center",
-                    fontSize: "2rem",
-                    marginBottom: "2rem",
-                }}
-            >
-                <h1>Welcome back to Simply Notes</h1>
+        <div className={styles["container"]}>
+            <header className={styles["welcome-header"]}>
+                <SimplyNotesLogo width={100} height={100} />
+                <h1>
+                    Welcome back to{" "}
+                    <strong className={styles["brand-name"]}>
+                        Simply Notes
+                    </strong>
+                </h1>
             </header>
             <Formik
                 initialValues={{
@@ -97,7 +95,7 @@ function Login(props: ILoginProps) {
             >
                 {({ handleSubmit, handleChange, values }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Stack maxWidth={"50rem"} margin="auto" spacing="5">
+                        <Stack className={styles["auth-form"]} spacing="5">
                             <FormControl id={loginFields.username}>
                                 <FormLabel>Username</FormLabel>
                                 <Input
@@ -138,7 +136,9 @@ function Login(props: ILoginProps) {
                             </FormControl>
 
                             <Button
-                                colorScheme="teal"
+                                // colorScheme="gray"
+                                // background={"gray.700"}
+                                // color={"white"}
                                 isLoading={isAuthLoading}
                                 loadingText={"Logging in"}
                                 type="submit"

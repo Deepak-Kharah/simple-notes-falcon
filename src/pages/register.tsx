@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Stack,
     FormControl,
@@ -9,15 +10,21 @@ import {
     Button,
 } from "@chakra-ui/react";
 import { Formik, ErrorMessage, Form } from "formik";
-import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import Link from "next/link";
 
+// redux
 import { registerUser } from "../modules/auth/redux/auth.action";
 import { State } from "../modules/redux/store";
 import { RegisterDto } from "../modules/auth/types/auth.dto";
+
+// components
+import SimplyNotesLogo from "../modules/common/components/Logo";
+
 import { registrationSchema } from "../modules/auth/yup/auth.yup-schema";
-import Link from "next/link";
+
+import styles from "../../styles/auth-page.module.css";
 
 declare interface IRegisterOwnProps {}
 
@@ -42,7 +49,7 @@ const registerationField = {
 const Register = (props: IRegisterProps) => {
     const { registerUser } = props;
 
-    const [showPassword, setShowPassword] = React.useState({
+    const [showPassword, setShowPassword] = useState({
         password: false,
         confirmPassword: false,
     });
@@ -57,22 +64,15 @@ const Register = (props: IRegisterProps) => {
     };
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-                justifyContent: "center",
-            }}
-        >
-            <header
-                style={{
-                    textAlign: "center",
-                    fontSize: "2rem",
-                    marginBottom: "2rem",
-                }}
-            >
-                <h1>Welcome to Simply Notes</h1>
+        <div className={styles["container"]}>
+            <header className={styles["welcome-header"]}>
+                <SimplyNotesLogo width={100} height={100} />
+                <h1>
+                    Welcome to{" "}
+                    <strong className={styles["brand-name"]}>
+                        Simply Notes
+                    </strong>
+                </h1>
             </header>
             <Formik
                 validateOnChange
@@ -87,7 +87,7 @@ const Register = (props: IRegisterProps) => {
             >
                 {({ handleSubmit, handleChange, values, errors, touched }) => (
                     <Form onSubmit={handleSubmit}>
-                        <Stack maxWidth={"50rem"} margin="auto" spacing="5">
+                        <Stack className={styles["auth-form"]} spacing="5">
                             <FormControl
                                 id={registerationField.username}
                                 isInvalid={Boolean(
@@ -207,7 +207,6 @@ const Register = (props: IRegisterProps) => {
                             <Button
                                 isLoading={props.authLoading}
                                 loadingText="Registering"
-                                colorScheme="teal"
                                 type="submit"
                             >
                                 Register
