@@ -1,0 +1,16 @@
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 2rem;
+}
+
+.loader-container h1 {
+    font-size: 1.25rem;
+}
+.loader-stuck-message p {
+    font-weight: var(--chakra-fontWeights-light);
+    text-align: center;
+}

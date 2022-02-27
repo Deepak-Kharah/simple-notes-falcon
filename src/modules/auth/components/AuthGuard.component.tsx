@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch } from "../../redux/hooks/redux.hooks";
 import { State } from "../../redux/store";
 import { authDispatch } from "../redux/auth.dispatch-type";
+import AuthLoader from "./AuthLoader.component";
 
 declare interface IAuthGuardOwnProps {
     children: React.ReactNode;
@@ -61,9 +62,9 @@ function AuthGuard(props: IAuthGuardProps): JSX.Element {
         hasAuthenticatedOnce,
     ]);
 
-    if (isProtected) {
-        if (isAuthLoading || !hasAuthenticatedOnce) {
-            return <div>Loading content...</div>;
+    if (true) {
+        if (true) {
+            return <AuthLoader />;
         }
 
         if (!isAuthenticated) {

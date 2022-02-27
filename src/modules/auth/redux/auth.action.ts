@@ -83,7 +83,9 @@ export function isUserLoggedin() {
                 },
             });
         } catch (error) {
-            console.error("get user error", error);
+            dispatch({
+                type: authDispatch.AUTH_ERROR,
+            });
         }
     };
 }
