@@ -1,34 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Simple Notes Falcon
 
-## Getting Started
+<p align="center">
+<img src="public/simply-notes-falcon.png" width="150" height="150" />
+</p>
 
-First, run the development server:
+Simple notes Falcon is the UI front of the Simply Notes web app. Next.js was used to build this project. Simply-Note is a note-taking app that only does CRUD operations, unlike many other apps. Google Keep was an inspiration for the UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+This project aimed to understand and use Next.js and Chakra UI together. Hence, it does not feature any advanced note-taking features. Additionally, I tried to implement various techniques that we may use in a production application. This project is not complete (as no web app could ever be sufficiently called complete) as we could always enhance the existing feature, fix bugs and add new features. I plan to revisit this project when I want to try something new.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Getting Started
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+-   First, configure and run the [Simple Notes Beaver](https://github.com/Deepak-Kharah/simple-notes-beaver).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+    Follow the [getting started](https://github.com/Deepak-Kharah/simple-notes-beaver#readme) section from the README.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+-   Install the dependencies
 
-## Learn More
+    Install the dependencies by running the following command from your current directory
 
-To learn more about Next.js, take a look at the following resources:
+    ```shell
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   Set up environment variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    Create a new file at the root of the project, named `.env.local` and copy the content of `.env.example`. Now, replace the URL with the URL at which you are running the [Simple Notes Beaver](https://github.com/Deepak-Kharah/simple-notes-beaver)
 
-## Deploy on Vercel
+-   Run the project
+    For developing, run the following command in the terminal from your current directory.
+    ```sh
+    npm  run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Tools used in this project
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   **Next.js** is the underlying React framework.
+-   UI components and themes are from **Chakra UI**.
+-   **Redux** with **Thunk** handles the internal global state management.
+-   **React query** manage the external global state management.
+-   **Formik** with **Yup** handles the form management.
+-   Logo is build using **Figma**.
+
+# The principle
+
+**Simple Notes Falcon** follows the principle of **minimum UI redirects**. When we go to the single notes, it should be inside a modal. Implementing the always-modal mode was a challenge as we could display a modal for the Note when we select it from a list. But, redirecting to an URL of a single note and still providing a modal was new for me.
+
+The project must use types for everything. I tried to develop folder structure and model the components to use typed as much as possible. Thus Axios, stores, dispatch, and everything has the autocomplete feature. Still, module CSS is an exception to this rule.
+
+Finally, the project must contain **easily configurable utilities** to abstract commonly used patterns. One example of this would be the use of the Component.isProtected flag. This flag will protect unauthorized users from accessing the page and redirecting them to the login page. Also, I have implemented the redirect-after-login for the first time.
+
+# The future
+
+In the future, I might try to remove the traction by asking to register only to sync the notes. I could experiment with offline mode as well. Currently, the app uses redux to store the address to redirect after login. But, this should be stored in the query param instead. We could also explore testing and Github CI/CD.
+
+# License
+
+Copyright 2022 Deepak Kharah
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -82,7 +82,7 @@ function Login(props: ILoginProps) {
                 <h1>
                     Welcome back to{" "}
                     <strong className={styles["brand-name"]}>
-                        Simply Notes
+                        Simply Note
                     </strong>
                 </h1>
             </header>

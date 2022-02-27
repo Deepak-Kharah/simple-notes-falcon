@@ -70,7 +70,7 @@ const Register = (props: IRegisterProps) => {
                 <h1>
                     Welcome to{" "}
                     <strong className={styles["brand-name"]}>
-                        Simply Notes
+                        Simply Note
                     </strong>
                 </h1>
             </header>

@@ -56,7 +56,7 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
                         <Hydrate state={pageProps.dehydratedState}>
                             <Head>
                                 <title>
-                                    Simply Notes • A project by Deepak Kharah
+                                    Simply Note • A project by Deepak Kharah
                                 </title>
                                 <link
                                     rel="apple-touch-icon"
@@ -92,7 +92,7 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
                     </UiAlertHOC>
                 </AuthGuard>
             </ChakraProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
     );
 }
