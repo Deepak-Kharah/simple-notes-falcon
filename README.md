@@ -1,7 +1,7 @@
 # Simple Notes Falcon
 
 <p align="center">
-<img src="public/simply-notes-falcon.png" width="150" height="150" />
+<img src="static/simply-notes-falcon.png" width="150" height="150" />
 </p>
 
 Simple notes Falcon is the UI front of the Simply Notes web app. Next.js was used to build this project. Simply-Note is a note-taking app that only does CRUD operations, unlike many other apps. Google Keep was an inspiration for the UI.
@@ -40,6 +40,13 @@ This project aimed to understand and use Next.js and Chakra UI together. Hence, 
 -   **React query** manage the external global state management.
 -   **Formik** with **Yup** handles the form management.
 -   Logo is build using **Figma**.
+
+# Screenshot
+
+<img src="static/register.png" width="500" />
+<img src="static/login.png" width="500" />
+<img src="static/notes.png" width="500"  />
+<img src="static/note.png" width="500"  />
 
 # The principle
 
