@@ -44,7 +44,7 @@ function Navbar(props: INavbarProps) {
             <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
                 <Box className={styles["brand"]}>
                     <SimplyNotesLogo width={30} height={30} />
-                    <p>Simply Notes</p>
+                    <p>Simply Note</p>
                 </Box>
                 <Flex alignItems={"center"}>
                     <Menu>
