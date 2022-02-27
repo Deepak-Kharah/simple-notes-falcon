@@ -1,0 +1,55 @@
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes rotate2 {
+    0% {
+        transform: rotate(0deg);
+        border-top-color: var(--chakra-colors-gray-700);
+    }
+    50% {
+        transform: rotate(180deg);
+        border-top-color: var(--chakra-colors-gray-400);
+    }
+    100% {
+        transform: rotate(360deg);
+        border-top-color: var(--chakra-colors-gray-700);
+    }
+}
+
+.loader {
+    position: relative;
+    width: 10rem;
+    height: 10rem;
+    display: block;
+    overflow: hidden;
+}
+.loader div {
+    height: 100%;
+}
+/* loader 1 */
+.loader,
+.loader div {
+    border-radius: 50%;
+    padding: 8px;
+    border: 3px solid transparent;
+    animation: rotate linear 3.5s infinite;
+    border-top-color: var(--chakra-colors-gray-700);
+    border-bottom-color: var(--chakra-colors-gray-400);
+}
+
+.loader:hover,
+.loader div:hover {
+    animation-play-state: paused;
+}
+.loader,
+.loader * {
+    will-change: transform;
+}

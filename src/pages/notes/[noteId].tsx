@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import AuthLoadingSpinner from "../../modules/auth/components/AuthLoadingSpinner.component";
 import { useGetNoteQuery } from "../../modules/notes/queries/hooks/note.query";
 
 function SingleNote() {
@@ -17,10 +18,10 @@ function SingleNote() {
             router.push(`/notes`);
             // TODO: handle alert
         }
-    }, [router.query, note?._id, isError]);
+    }, [router.query, note?._id, isError, router]);
 
     if (isLoading || !router.query.noteId) {
-        return <div>Loading...</div>;
+        return <AuthLoadingSpinner />;
     }
 
     return <></>;

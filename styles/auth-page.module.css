@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+}
+
+header.welcome-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--chakra-space-8);
+    margin-bottom: var(--chakra-space-12);
+    font-size: var(--chakra-space-8);
+    text-align: center;
+}
+
+header.welcome-header h1 {
+    font-weight: var(--chakra-fontWeights-light);
+}
+
+header.welcome-header h1 strong.brand-name {
+    font-weight: var(--chakra-fontWeights-semibold);
+}
+
+.auth-form {
+    max-width: var(--chakra-sizes-2xl);
+    margin: auto;
+}

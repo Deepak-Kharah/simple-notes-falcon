@@ -6,6 +6,8 @@ import {
     UserWithoutPasswordDto,
 } from "../types/auth.dto";
 import { Dispatch } from "../../redux/store";
+import { uiAlertDispatch } from "../../ui-message/redux/ui-message.dispatch-type";
+import { UseToastOptions } from "@chakra-ui/react";
 
 export const loginUser =
     ({ username, password }: LoginDto) =>
@@ -26,11 +28,20 @@ export const loginUser =
                 type: authDispatch.USER_LOGGED_IN,
                 payload: response.data,
             });
-        } catch (error) {
+        } catch (error: any) {
             dispatch({
                 type: authDispatch.USER_LOGGED_IN_FAILED,
             });
-            console.error("login error", error);
+
+            dispatch({
+                type: uiAlertDispatch.UI_ALERT_ADD,
+                payload: {
+                    alert: {
+                        title: "You have entered invalid username or password",
+                        status: "error",
+                    } as UseToastOptions,
+                },
+            });
         }
 
         return null;
@@ -83,7 +94,9 @@ export function isUserLoggedin() {
                 },
             });
         } catch (error) {
-            console.error("get user error", error);
+            dispatch({
+                type: authDispatch.AUTH_ERROR,
+            });
         }
     };
 }

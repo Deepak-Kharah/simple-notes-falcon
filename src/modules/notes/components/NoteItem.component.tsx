@@ -40,6 +40,7 @@ function NoteItemFooter({ deleteNote }: { deleteNote: () => void }) {
                 bgColor="white"
             >
                 <IconButton
+                    className={styles["delete-button"]}
                     isRound
                     color="gray.100"
                     variant="ghost"
