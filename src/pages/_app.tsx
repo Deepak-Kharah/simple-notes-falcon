@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
 
 // redux
@@ -50,6 +51,39 @@ function SimpleTodo({ Component, pageProps, ...props }: ISimpleTodoProps) {
             <ChakraProvider>
                 <AuthGuard isProtected={isProtected}>
                     <Hydrate state={pageProps.dehydratedState}>
+                        <Head>
+                            <title>
+                                Simply Notes • A project by Deepak Kharah
+                            </title>
+                            <link
+                                rel="apple-touch-icon"
+                                sizes="180x180"
+                                href="/apple-touch-icon.png"
+                            />
+                            <link
+                                rel="icon"
+                                type="image/png"
+                                sizes="32x32"
+                                href="/favicon-32x32.png"
+                            />
+                            <link
+                                rel="icon"
+                                type="image/png"
+                                sizes="16x16"
+                                href="/favicon-16x16.png"
+                            />
+                            <link rel="manifest" href="/site.webmanifest" />
+                            <link
+                                rel="mask-icon"
+                                href="/safari-pinned-tab.svg"
+                                color="#373943"
+                            />
+                            <meta
+                                name="msapplication-TileColor"
+                                content="#373943"
+                            />
+                            <meta name="theme-color" content="#ffffff" />
+                        </Head>
                         <Component {...pageProps} />
                     </Hydrate>
                 </AuthGuard>
